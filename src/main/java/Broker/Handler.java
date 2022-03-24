@@ -19,11 +19,13 @@ public class Handler implements Runnable {
 
     private Connection connection;
     private HashMap<String, ArrayBlockingQueue<byte[]>> map;
+    private ArrayBlockingQueue<Connection> pushConsumer;
     private static final Logger logger = LogManager.getLogger(Broker.class);
 
-    public Handler(Socket socket, HashMap<String, ArrayBlockingQueue<byte[]>> data) {
+    public Handler(Socket socket, HashMap<String, ArrayBlockingQueue<byte[]>> data, ArrayBlockingQueue<Connection> push) {
         map = data;
         connection = new Connection(socket);
+        pushConsumer = push;
     }
 
     @Override
@@ -96,7 +98,10 @@ public class Handler implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        } else if (record.getTopic().equals("push")) {
+            pushConsumer.add(connection);
+        }
+        else {
             System.out.println("Initial Error!");
         }
     }

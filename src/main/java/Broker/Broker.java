@@ -1,5 +1,6 @@
 package Broker;
 
+import Model.Connection;
 import com.google.protobuf.ByteString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -23,6 +25,7 @@ public class Broker {
     private ServerSocket server;
     private boolean running;
     private static final Logger logger = LogManager.getLogger(Broker.class);
+    private ArrayBlockingQueue<Connection> pushConsumer;
 
     public Broker(String prop) {
         Properties properties = new Properties();
@@ -42,6 +45,7 @@ public class Broker {
             e.printStackTrace();
         }
         running = true;
+        pushConsumer = new ArrayBlockingQueue<>(5);
         logger.info("Broker Server Start at port: " + Integer.parseInt(properties.getProperty("port")));
     }
 
@@ -53,7 +57,7 @@ public class Broker {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Thread t = new Thread(new Handler(socket, map));
+            Thread t = new Thread(new Handler(socket, map, pushConsumer));
             t.start();
             logger.info("start a new thread");
         }
