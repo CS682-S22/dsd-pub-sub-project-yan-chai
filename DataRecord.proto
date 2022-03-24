@@ -1,0 +1,5 @@
+message Record {
+  optional int32 id = 1;
+  required string topic = 2;
+  required bytes msg = 3;
+}

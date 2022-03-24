@@ -1,5 +1,9 @@
 package Producer;
 
+import Model.Connection;
+import Model.DataRecord;
+import com.google.protobuf.ByteString;
+
 import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,7 +12,7 @@ import java.util.Properties;
 
 public class Producer {
 
-    Socket socket;
+    Connection connection;
 
 
     public Producer(String prop) {
@@ -20,32 +24,16 @@ public class Producer {
         }
         String broker = properties.getProperty("broker");
         int port = Integer.parseInt(properties.getProperty("port"));
-        try {
-            socket = new Socket(broker, port);
-        } catch (IOException e) {
-            System.out.println("Create Socket Error!");
-        }
-        if (socket == null) {
-            System.exit(-1);
-        }
+        connection = new Connection(broker, port);
+        connection.send(DataRecord.Record.newBuilder().setTopic("producer").setMsg(ByteString.EMPTY).build().toByteArray());
+
     }
 
     public void send(byte[] message) {
-        try {
-            DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-            dOut.writeInt(message.length);
-            dOut.write(message);
-            dOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        connection.send(message);
     }
 
     public void close() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        connection.close();
     }
 }

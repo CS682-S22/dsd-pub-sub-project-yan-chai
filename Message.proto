@@ -1,4 +1,3 @@
 message Msg {
-  required string key = 1;
-  required string value = 2;
+  required string msg = 1;
 }
