@@ -1,0 +1,3 @@
+2022-03-24 10:59:19,557 INFO TestLog [main] test!test! 
+2022-03-24 10:59:19,563 WARN TestLog [main] ????????hello? 
+2022-03-24 10:59:19,563 ERROR TestLog [main] I am a logger! 

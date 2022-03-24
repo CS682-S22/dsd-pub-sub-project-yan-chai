@@ -23,10 +23,13 @@ public class ProducerDriver {
                 byte[] s;
                 s = Arrays.copyOf(tmp, len);
                 producer.send(DataRecord.Record.newBuilder().setTopic(topic).setMsg(ByteString.copyFrom(s)).build().toByteArray());
+                Thread.sleep(500);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         producer.close();

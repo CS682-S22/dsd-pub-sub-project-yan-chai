@@ -32,7 +32,7 @@ public class Broker {
             e.printStackTrace();
         }
         map = new HashMap<>();
-        String[] topics = properties.getProperty("topic").split(",");
+        String[] topics = properties.getProperty("topics").split(",");
         for (String s : topics) {
             map.put(s, new ArrayBlockingQueue<>(20));
         }

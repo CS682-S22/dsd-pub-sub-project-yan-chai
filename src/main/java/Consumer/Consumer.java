@@ -86,8 +86,4 @@ public class Consumer {
         start += record.getMsg().toByteArray().length;
         bQueue.add(record.getMsg().toByteArray());
     }
-
-    public void close() {
-
-    }
 }
