@@ -25,7 +25,7 @@ public class Broker {
     private ServerSocket server;
     private boolean running;
     private static final Logger logger = LogManager.getLogger(Broker.class);
-    private ArrayBlockingQueue<Connection> pushConsumer;
+    private HashMap<String, ArrayBlockingQueue<Connection>> consumers;
 
     public Broker(String prop) {
         Properties properties = new Properties();
@@ -38,6 +38,7 @@ public class Broker {
         String[] topics = properties.getProperty("topics").split(",");
         for (String s : topics) {
             map.put(s, new ArrayBlockingQueue<>(20));
+            consumers.put(s, new ArrayBlockingQueue<Connection>(5));
         }
         try {
             server = new ServerSocket(Integer.parseInt(properties.getProperty("port")));
@@ -45,7 +46,6 @@ public class Broker {
             e.printStackTrace();
         }
         running = true;
-        pushConsumer = new ArrayBlockingQueue<>(5);
         logger.info("Broker Server Start at port: " + Integer.parseInt(properties.getProperty("port")));
     }
 
@@ -57,7 +57,7 @@ public class Broker {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Thread t = new Thread(new Handler(socket, map, pushConsumer));
+            Thread t = new Thread(new Handler(socket, map, consumers));
             t.start();
             logger.info("start a new thread");
         }
