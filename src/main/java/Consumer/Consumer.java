@@ -41,7 +41,7 @@ public class Consumer {
 
     public String poll(Duration duration) {
         byte[] tmp = null;
-        if (records.length == (index + 1)) {
+        if (records.length <= (index + 1)) {
             pull();
             try {
                 tmp = bQueue.poll(duration.toMillis(), TimeUnit.MILLISECONDS);
@@ -51,6 +51,18 @@ public class Consumer {
             if (tmp == null) {
                 System.out.println("Nothing in Consumer");
             } else {
+                if (index >= records.length) {
+                    records = new String[1];
+                    records[0] = "";
+                    index = 0;
+                    System.out.println("Nothing");
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
                 String last = records[index];
                 records = new String(tmp).split("\n");
                 records[0] = last + records[0];
@@ -71,6 +83,11 @@ public class Consumer {
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
+        start += record.getMsg().toByteArray().length;
         bQueue.add(record.getMsg().toByteArray());
+    }
+
+    public void close() {
+
     }
 }

@@ -83,11 +83,16 @@ public class Handler implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            tmp = new byte[1024];
             try {
                 int len = fis.read(tmp, 0, 1024);
-                byte[] s;
-                s = Arrays.copyOf(tmp, len);
-                connection.send(DataRecord.Record.newBuilder().setId(offset+len).setMsg(ByteString.copyFrom(s)).setTopic(record.getTopic()).build().toByteArray());
+                if (len <= 0) {
+                    connection.send(DataRecord.Record.newBuilder().setMsg(ByteString.EMPTY).setTopic("finish").build().toByteArray());
+                } else {
+                    byte[] s;
+                    s = Arrays.copyOf(tmp, len);
+                    connection.send(DataRecord.Record.newBuilder().setId(offset+len).setMsg(ByteString.copyFrom(s)).setTopic(record.getTopic()).build().toByteArray());
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

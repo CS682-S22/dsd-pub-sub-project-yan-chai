@@ -24,7 +24,6 @@ public class Connection{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Connect to " + port);
     }
 
     public Connection(Socket socket) {
