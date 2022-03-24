@@ -29,5 +29,6 @@ public class ProducerDriver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        producer.close();
     }
 }

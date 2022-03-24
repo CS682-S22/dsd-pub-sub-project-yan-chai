@@ -34,6 +34,7 @@ public class Producer {
     }
 
     public void close() {
+        connection.send(DataRecord.Record.newBuilder().setTopic("finish").setMsg(ByteString.EMPTY).build().toByteArray());
         connection.close();
     }
 }

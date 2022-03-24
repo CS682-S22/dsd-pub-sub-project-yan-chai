@@ -37,16 +37,18 @@ public class Handler implements Runnable {
         }
         if (record.getTopic().equals("producer")) {
             logger.info("producer thread");
-            while (!record.getTopic().equals("finish")) {
+            while (true) {
                 try {
-                    record = DataRecord.Record.parseFrom(connection.receive());
+                    tmp = connection.receive();
+                    if (tmp == null) continue;
+                    record = DataRecord.Record.parseFrom(tmp);
                 } catch (InvalidProtocolBufferException e) {
                     e.printStackTrace();
                 }
+                if (record.getTopic().equals("finish")) break;
                 tmp = record.getMsg().toByteArray();
                 ArrayBlockingQueue<byte[]> queue = map.get(record.getTopic());
                 queue.add(tmp);
-
                 if (queue.size() >= 10) {
                     BufferedOutputStream bos = null;
                     try {
@@ -62,7 +64,6 @@ public class Handler implements Runnable {
                     }
                 }
             }
-            connection.close();
         } else if (record.getTopic().equals("consumer")) {
             logger.info("consumer thread");
             try {

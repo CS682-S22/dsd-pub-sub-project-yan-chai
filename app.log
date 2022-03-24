@@ -1,1 +1,45 @@
 2022-03-23 20:11:59,030 INFO B.Broker [main] hello!
+2022-03-23 21:51:46,768 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 21:52:35,681 INFO B.Broker [main] start a new thread 
+2022-03-23 21:52:35,866 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:01:49,240 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:01:52,692 INFO B.Broker [main] start a new thread 
+2022-03-23 22:01:52,789 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:02:11,344 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:02:12,749 INFO B.Broker [main] start a new thread 
+2022-03-23 22:02:12,838 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:19:18,763 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:19:31,316 INFO B.Broker [main] start a new thread 
+2022-03-23 22:19:31,434 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:20:15,970 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:20:21,027 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:20:24,683 INFO B.Broker [main] start a new thread 
+2022-03-23 22:20:24,790 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:27:10,565 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:28:15,087 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:28:19,031 INFO B.Broker [main] start a new thread 
+2022-03-23 22:28:19,137 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:31:10,155 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:31:13,509 INFO B.Broker [main] start a new thread 
+2022-03-23 22:31:13,615 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:33:39,485 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:33:42,799 INFO B.Broker [main] start a new thread 
+2022-03-23 22:33:42,900 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:47:51,951 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:47:52,346 INFO B.Broker [main] start a new thread 
+2022-03-23 22:47:52,487 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:48:57,649 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:49:27,846 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:49:33,358 INFO B.Broker [main] start a new thread 
+2022-03-23 22:49:33,520 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:50:58,297 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:51:03,391 INFO B.Broker [main] start a new thread 
+2022-03-23 22:51:03,488 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:53:01,863 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:53:04,826 INFO B.Broker [main] start a new thread 
+2022-03-23 22:53:04,949 INFO B.Broker [Thread-0] producer thread 
+2022-03-23 22:54:28,474 INFO B.Broker [main] start a new thread 
+2022-03-23 22:54:28,548 INFO B.Broker [Thread-1] producer thread 
+2022-03-23 22:54:50,261 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-03-23 22:54:53,952 INFO B.Broker [main] start a new thread 
+2022-03-23 22:54:54,051 INFO B.Broker [Thread-0] producer thread 
