@@ -8,6 +8,10 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Author: Haoyu Yan
+ * push base consumer
+ */
 public class PushConsumer {
 
     private Connection connection;

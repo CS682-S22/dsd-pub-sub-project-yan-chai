@@ -12,9 +12,11 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Author: Haoyu Yan
+ * Handler, handle thread from broker
+ */
 public class Handler implements Runnable {
 
     private Connection connection;

@@ -1,24 +1,21 @@
 package Broker;
 
 import Model.Connection;
-import com.google.protobuf.ByteString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Level;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Author: Haoyu Yan
+ * Broker, support both poll and push base consumer
+ */
 public class Broker {
 
     private HashMap<String, ArrayBlockingQueue<byte[]>> map;

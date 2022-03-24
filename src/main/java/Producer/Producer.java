@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Properties;
 
+/**
+ * Author: Haoyu Yan
+ * Producer, send data to broker
+ */
 public class Producer {
 
     Connection connection;

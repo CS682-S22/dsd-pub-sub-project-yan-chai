@@ -15,6 +15,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Author: Haoyu Yan
+ * pull base consumer
+ */
 public class Consumer {
 
     private String broker;

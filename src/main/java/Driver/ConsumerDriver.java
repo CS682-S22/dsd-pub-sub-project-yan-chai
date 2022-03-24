@@ -4,6 +4,10 @@ import Consumer.Consumer;
 
 import java.time.Duration;
 
+/**
+ * Author: Haoyu Yan
+ * Consumer Driver
+ */
 public class ConsumerDriver {
 
     public static void main(String[] args) {
