@@ -62,7 +62,7 @@ public class Handler implements Runnable {
             }
             FileInputStream fis = null;
             try {
-                fis = new FileInputStream("Storage/" + record.getTopic());
+                fis = new FileInputStream("storage/" + record.getTopic());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

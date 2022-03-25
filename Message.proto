@@ -1,3 +1,0 @@
-message Msg {
-  required string msg = 1;
-}

@@ -47,7 +47,7 @@ public class Broker {
         while (running) {
             Socket socket = null;
             try {
-                socket = server.accept();
+                socket =   server.accept();
             } catch (IOException e) {
                 e.printStackTrace();
             }

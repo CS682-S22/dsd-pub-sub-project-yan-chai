@@ -12,6 +12,7 @@ public class DataWriter {
     private HashMap<String, ArrayList<byte[]>> map;
 
     public DataWriter (String[] topic) {
+        map = new HashMap<>();
         for (String s :  topic) {
             map.put(s, new ArrayList<>());
         }
@@ -23,7 +24,7 @@ public class DataWriter {
         if (list.size() >= 10) {
             BufferedOutputStream bos = null;
             try {
-                bos = new BufferedOutputStream(new FileOutputStream("Storage/" + topic, true));
+                bos = new BufferedOutputStream(new FileOutputStream("storage/" + topic, true));
                 for (byte[] b : list) {
                     bos.write(b);
                 }
