@@ -51,6 +51,12 @@ public class Handler implements Runnable {
                 }
                 if (record.getTopic().equals("finish")) break;
                 tmp = record.getMsg().toByteArray();
+                ArrayBlockingQueue<Connection> list = pushConsumer.get(record.getTopic());
+                if (list != null) {
+                    for (Connection c : list) {
+                        c.send(record.toByteArray());
+                    }
+                }
                 dataWriter.write(record.getTopic(), tmp);
             }
         } else if (record.getTopic().equals("consumer")) {
@@ -87,6 +93,7 @@ public class Handler implements Runnable {
                 e.printStackTrace();
             }
         } else if (record.getTopic().equals("push")) {
+            logger.info("new push base consumer");
             String t = new String(record.getMsg().toByteArray());
             ArrayBlockingQueue<Connection> list = pushConsumer.get(t);
             if (list == null) {
