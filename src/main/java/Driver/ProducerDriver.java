@@ -6,8 +6,10 @@ import com.google.protobuf.ByteString;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Properties;
 
 /**
  * Author: Haoyu Yan
@@ -16,9 +18,15 @@ import java.util.Arrays;
 public class ProducerDriver {
 
     public static void main(String[] args) {
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileReader("config.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Producer producer = new Producer("config.properties");
-        String topic = "music";
-        String infile = "input";
+        String topic = prop.getProperty("topic");
+        String infile = prop.getProperty("input");
         int bytes = 1024;
         try (FileInputStream fis = new FileInputStream(infile)) {
             byte[] tmp = new byte[bytes];

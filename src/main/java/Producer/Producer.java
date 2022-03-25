@@ -34,7 +34,6 @@ public class Producer {
         int port = Integer.parseInt(properties.getProperty("port"));
         connection = new Connection(broker, port);
         connection.send(DataRecord.Record.newBuilder().setTopic("producer").setMsg(ByteString.EMPTY).build().toByteArray());
-
     }
 
     public void send(byte[] message) {
