@@ -15,6 +15,7 @@ public class ConsumerDriver {
 
         while (true) {
             String tmp = consumer.poll(Duration.ofMillis(100));
+            System.out.println(tmp);
         }
     }
 }

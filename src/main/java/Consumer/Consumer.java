@@ -29,7 +29,7 @@ public class Consumer {
     private int time;
     private String[] records;
     private int index;
-    private static final Logger logger = LogManager.getLogger(Broker.class);
+    private static final Logger logger = LogManager.getLogger(Consumer.class);
 
 
     public Consumer(String b, int p, String t, int startPosition) {
@@ -46,6 +46,7 @@ public class Consumer {
     public String poll(Duration duration) {
         byte[] tmp = null;
         if (records.length <= (index + 1)) {
+            logger.info("pull from broker");
             pull();
             try {
                 tmp = bQueue.poll(duration.toMillis(), TimeUnit.MILLISECONDS);

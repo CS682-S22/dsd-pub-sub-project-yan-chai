@@ -52,6 +52,12 @@ public class Handler implements Runnable {
                 if (record.getTopic().equals("finish")) break;
                 tmp = record.getMsg().toByteArray();
                 ArrayBlockingQueue<byte[]> queue = map.get(record.getTopic());
+                ArrayBlockingQueue<Connection> t = pushConsumer.get(record.getTopic());
+                if (t != null) {
+                    for (Connection c : t) {
+                        c.send(record.toByteArray());
+                    }
+                }
                 queue.add(tmp);
                 if (queue.size() >= 10) {
                     BufferedOutputStream bos = null;
@@ -82,6 +88,7 @@ public class Handler implements Runnable {
                 e.printStackTrace();
             }
             int offset = Integer.parseInt(new String(record.getMsg().toByteArray()));
+            logger.info("send to consumer, offset: "+ offset);
             try {
                 fis.getChannel().position(offset);
             } catch (IOException e) {

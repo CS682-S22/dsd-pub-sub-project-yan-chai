@@ -23,6 +23,7 @@ public class PushConsumer {
     }
 
     public void start() {
+        logger.info("push base start");
         while (true) {
             byte[] tmp = connection.receive();
             try {

@@ -1,8 +1,11 @@
 package Producer;
 
+import Broker.Broker;
 import Model.Connection;
 import Model.DataRecord;
 import com.google.protobuf.ByteString;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.DataOutputStream;
 import java.io.FileReader;
@@ -17,6 +20,7 @@ import java.util.Properties;
 public class Producer {
 
     Connection connection;
+    private static final Logger logger = LogManager.getLogger(Broker.class);
 
 
     public Producer(String prop) {
@@ -34,6 +38,7 @@ public class Producer {
     }
 
     public void send(byte[] message) {
+        logger.info("send new message");
         connection.send(message);
     }
 
