@@ -18,7 +18,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class Broker {
 
-    private HashMap<String, ArrayBlockingQueue<byte[]>> map;
+    private DataWriter dw;
     private ServerSocket server;
     private boolean running;
     private static final Logger logger = LogManager.getLogger(Broker.class);
@@ -31,13 +31,9 @@ public class Broker {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        map = new HashMap<>();
         consumers = new HashMap<>();
         String[] topics = properties.getProperty("topics").split(",");
-        for (String s : topics) {
-            map.put(s, new ArrayBlockingQueue<>(20));
-            consumers.put(s, new ArrayBlockingQueue<Connection>(5));
-        }
+        dw = new DataWriter(topics);
         try {
             server = new ServerSocket(Integer.parseInt(properties.getProperty("port")));
         } catch (IOException e) {
@@ -55,7 +51,7 @@ public class Broker {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Thread t = new Thread(new Handler(socket, map, consumers));
+            Thread t = new Thread(new Handler(socket, dw, consumers));
             t.start();
             logger.info("start a new thread");
         }

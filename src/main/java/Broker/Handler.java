@@ -20,12 +20,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class Handler implements Runnable {
 
     private Connection connection;
-    private HashMap<String, ArrayBlockingQueue<byte[]>> map;
+    private DataWriter dataWriter;
     private HashMap<String, ArrayBlockingQueue<Connection>> pushConsumer;
     private static final Logger logger = LogManager.getLogger(Broker.class);
 
-    public Handler(Socket socket, HashMap<String, ArrayBlockingQueue<byte[]>> data, HashMap<String, ArrayBlockingQueue<Connection>> push) {
-        map = data;
+    public Handler(Socket socket, DataWriter dw, HashMap<String, ArrayBlockingQueue<Connection>> push) {
+        dataWriter = dw;
         connection = new Connection(socket);
         pushConsumer = push;
     }
@@ -51,28 +51,7 @@ public class Handler implements Runnable {
                 }
                 if (record.getTopic().equals("finish")) break;
                 tmp = record.getMsg().toByteArray();
-                ArrayBlockingQueue<byte[]> queue = map.get(record.getTopic());
-                ArrayBlockingQueue<Connection> t = pushConsumer.get(record.getTopic());
-                if (t != null) {
-                    for (Connection c : t) {
-                        c.send(record.toByteArray());
-                    }
-                }
-                queue.add(tmp);
-                if (queue.size() >= 10) {
-                    BufferedOutputStream bos = null;
-                    try {
-                        bos = new BufferedOutputStream(new FileOutputStream("Storage/" + record.getTopic(), true));
-                        for (byte[] b : queue) {
-                            bos.write(b);
-                        }
-                        queue.clear();
-                        bos.flush();
-                        bos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                dataWriter.write(record.getTopic(), tmp);
             }
         } else if (record.getTopic().equals("consumer")) {
             logger.info("consumer thread");
