@@ -28,7 +28,7 @@ public class PushConsumer {
             byte[] tmp = connection.receive();
             try {
                 DataRecord.Record record = DataRecord.Record.parseFrom(tmp);
-                logger.info(new String(record.getMsg().toByteArray()));
+                System.out.println(new String(record.getMsg().toByteArray()));
             } catch (InvalidProtocolBufferException e) {
                 e.printStackTrace();
             }

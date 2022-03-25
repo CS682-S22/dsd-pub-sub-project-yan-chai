@@ -3474,3 +3474,6 @@
 2022-03-25 14:17:25,761 INFO B.Broker [main] start a new thread 
 2022-03-25 14:17:25,792 INFO B.Broker [Thread-2] new push base consumer 
 2022-03-25 14:19:17,478 INFO B.Broker [main] push base start 
+2022-03-25 15:20:42,217 INFO B.Broker [main] push base start 
+2022-03-25 15:21:17,990 INFO B.Broker [main] push base start 
+2022-03-25 15:23:02,314 INFO B.Broker [main] push base start 

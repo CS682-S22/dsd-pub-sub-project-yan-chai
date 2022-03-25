@@ -53,6 +53,7 @@ public class Handler implements Runnable {
                 tmp = record.getMsg().toByteArray();
                 ArrayBlockingQueue<Connection> list = pushConsumer.get(record.getTopic());
                 if (list != null) {
+                    System.out.println("Send Push");
                     for (Connection c : list) {
                         c.send(record.toByteArray());
                     }
