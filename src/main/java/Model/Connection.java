@@ -18,12 +18,8 @@ public class Connection{
      * @param host
      * @param port
      */
-    public Connection(String host, int port) {
-        try {
-            socket = new Socket(host, port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Connection(String host, int port) throws IOException {
+        socket = new Socket(host, port);
     }
 
     public Connection(Socket socket) {

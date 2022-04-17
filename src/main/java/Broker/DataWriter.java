@@ -1,40 +1,30 @@
 package Broker;
 
 import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.ArrayBlockingQueue;
 
 public class DataWriter {
 
-    private HashMap<String, ArrayList<byte[]>> map;
+    private BufferedOutputStream bos;
 
-    public DataWriter (String[] topic) {
-        map = new HashMap<>();
-        for (String s :  topic) {
-            map.put(s, new ArrayList<>());
+    public DataWriter (String topic) {
+        try {
+            bos = new BufferedOutputStream(new FileOutputStream(topic));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
-    public synchronized void write(String topic, byte[] content) {
-        ArrayList<byte[]> list = map.get(topic);
-        list.add(content);
-        if (list.size() >= 10) {
-            BufferedOutputStream bos = null;
+    public synchronized void write(ArrayList<byte[]> list) {
+        for (byte[] b : list) {
             try {
-                bos = new BufferedOutputStream(new FileOutputStream("storage/" + topic, true));
-                for (byte[] b : list) {
-                    bos.write(b);
-                }
-                list.clear();
-                bos.flush();
-                bos.close();
+                bos.write(b);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 }
