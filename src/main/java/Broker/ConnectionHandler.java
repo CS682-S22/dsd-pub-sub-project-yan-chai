@@ -17,16 +17,16 @@ public class ConnectionHandler implements Runnable{
     private int id;
     private int leader;
     private FaultConnection connection;
-    private ConcurrentHashMap<String, DataWriter> writers;
+    private Storage storage;
     private ConcurrentHashMap<Integer, FaultConnection> members;
-    private static final Logger logger = LogManager.getLogger(Broker.class);
+    private static final Logger logger = LogManager.getLogger(ConnectionHandler.class);
 
-    public ConnectionHandler(int id, int leader, FaultConnection connection, ConcurrentHashMap<String, DataWriter> writers, ConcurrentHashMap<Integer, FaultConnection> members) {
+    public ConnectionHandler(int id, FaultConnection connection, MemberTable table, Storage storage) {
         this.id = id;
-        this.leader = leader;
+        this.leader = table.getLeader();
         this.connection = connection;
-        this.writers = writers;
-        this.members = members;
+        this.storage = storage;
+        this.members = table.getMembers();
     }
 
     @Override
@@ -41,6 +41,8 @@ public class ConnectionHandler implements Runnable{
         if (record.getTopic().equals("broker")) {
             members.put(record.getId(), connection);
             connection.send(DataRecord.Record.newBuilder().setId(leader).setTopic("leader").setMsg(ByteString.EMPTY).build().toByteArray());
+        } else if (record.getTopic().equals("election")) {
+
         }
     }
 }

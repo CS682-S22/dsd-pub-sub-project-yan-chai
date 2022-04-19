@@ -1,57 +1,70 @@
 package Broker;
 
+import Model.Config;
 import Model.Connection;
 import Model.DataRecord;
 import Model.FaultConnection;
-import Model.ServerInfo;
+import com.google.protobuf.ByteString;
 
 import java.util.*;
 import java.util.concurrent.*;
 
 public class HeartBeatServer implements Runnable{
 
-    private ConcurrentHashMap<Integer, FaultConnection> members;
-    private ConcurrentHashMap<Integer, Date> timeTable;
-    private int ids;
-    private int id;
+    private MemberTable table;
+    private Config config;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public HeartBeatServer(ConcurrentHashMap<Integer, FaultConnection> members, int ids, int id) {
-        this.members = members;
-        timeTable = new ConcurrentHashMap<>();
-        this.ids = ids;
-        this.id = id;
+    public HeartBeatServer(MemberTable table, Config config) {
+        this.table = table;
+        this.config = config;
+    }
+
+    private void sendHb(FaultConnection c) {
+        c.sendHeartBeat(config.getId());
+        System.out.println("broker " + config.getId() + " send heart beat.");
     }
 
     @Override
     public void run() {
         Timer timer = new Timer();
-        Date date = new Date();
-        for (int i = 0; i < ids; i ++) {
-            timeTable.put(i, date);
-        }
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < ids; i ++) {
-                    FaultConnection c = members.get(i);
-                    if (i == id || c == null) {
-                        continue;
+                if (table.getLeader() == -1) {
+                    System.out.println("electing");
+                    for (int i = 0; i < config.getId(); i ++) {
+                        FaultConnection c = table.getMembers().get(i);
+                        if (c == null) {
+                            continue;
+                        }
+                        sendHb(c);
                     }
-                    c.sendHeartBeat(id);
-                    Future future = executor.submit(new HeartReceiver(c));
-                    try {
-                        DataRecord.Record ack = (DataRecord.Record) future.get(100, TimeUnit.MILLISECONDS);
-                        timeTable.put(ack.getId(), new Date());
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (TimeoutException e) {
-                        System.out.println("broker " + i + " lose heart beat.");
-                        if (new Date().getTime() - timeTable.get(i).getTime() > 5000) {
-                            members.remove(i);
-                            System.out.println("remove " + i);
+                    boolean hasUpper = false;
+                    for (int i = config.getId()+1; i < config.getNumber(); i ++) {
+                        FaultConnection c = table.getMembers().get(i);
+                        if (c != null) {
+                            hasUpper = true;
+                            c.send(DataRecord.Record.newBuilder().setId(config.getId()).setTopic("election").setMsg(ByteString.EMPTY).build().toByteArray());
                         }
                     }
+                    if (!hasUpper) {
+                        table.setLeader(config.getId());
+                        for (int i = 0; i < config.getNumber(); i ++) {
+                            FaultConnection c = table.getMembers().get(i);
+                            if (c == null) {
+                                continue;
+                            }
+                            c.send(DataRecord.Record.newBuilder().setId(config.getId()).setTopic("newLeader").setMsg(ByteString.EMPTY).build().toByteArray());
+                        }
+                    }
+                }
+                for (int i = 0; i < config.getNumber(); i ++) {
+                    FaultConnection c = table.getMembers().get(i);
+                    if (c == null) {
+                        continue;
+                    }
+                    sendHb(c);
                 }
             }
         };

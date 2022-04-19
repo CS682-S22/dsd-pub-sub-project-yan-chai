@@ -16,6 +16,9 @@ public class HeartReceiver implements Callable<DataRecord.Record> {
     @Override
     public DataRecord.Record call() throws Exception {
         byte[] tmp = connection.receive();
+        if (tmp == null) {
+            return null;
+        }
         return DataRecord.Record.parseFrom(tmp);
     }
 }

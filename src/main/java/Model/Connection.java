@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Author: Haoyu Yan
@@ -35,6 +36,7 @@ public class Connection{
                 message = new byte[length];
                 dIn.readFully(message, 0, message.length);
             }
+        } catch (SocketException e) {
         } catch (IOException e) {
             e.printStackTrace();
         }

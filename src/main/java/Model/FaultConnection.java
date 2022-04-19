@@ -21,8 +21,9 @@ public class FaultConnection extends Connection {
 
     @Override
     public byte[] receive() {
+        byte[] tmp = super.receive();
         if (running) {
-            return super.receive();
+            return tmp;
         }
         return null;
     }
@@ -45,6 +46,10 @@ public class FaultConnection extends Connection {
     }
 
     public void sendHeartBeat(int id) {
-        send(DataRecord.Record.newBuilder().setId(id).setTopic("heart").setMsg(ByteString.EMPTY).build().toByteArray());
+        send(DataRecord.Record.newBuilder().setId(id).setTopic("hb").setMsg(ByteString.EMPTY).build().toByteArray());
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 }
