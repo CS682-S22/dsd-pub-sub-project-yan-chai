@@ -1,5 +1,6 @@
 package Broker;
 
+import Model.Config;
 import Model.Connection;
 import Model.DataRecord;
 import Model.FaultConnection;
@@ -18,13 +19,15 @@ public class ConnectionHandler implements Runnable{
     private int id;
     private MemberTable table;
     private FaultConnection connection;
+    private Config config;
     private Storage storage;
     private ConcurrentHashMap<Integer, FaultConnection> members;
     private static final Logger logger = LogManager.getLogger(ConnectionHandler.class);
 
-    public ConnectionHandler(int id, FaultConnection connection, MemberTable table, Storage storage) {
+    public ConnectionHandler(int id, FaultConnection connection, Config config, MemberTable table, Storage storage) {
         this.id = id;
         this.table = table;
+        this.config = config;
         this.connection = connection;
         this.storage = storage;
         this.members = table.getMembers();
@@ -41,6 +44,9 @@ public class ConnectionHandler implements Runnable{
         }
         if (record.getTopic().equals("broker")) {
             members.put(record.getId(), connection);
+            table.addNew(record.getId());
+            Thread t = new Thread(new ReceivingHandler(record.getId(), config, table, connection, storage));
+            t.start();
             connection.send(DataRecord.Record.newBuilder().setId(table.getLeader()).setTopic("leader").setMsg(ByteString.EMPTY).build().toByteArray());
         } else if (record.getTopic().equals("producer")) {
             if (id == table.getLeader()) {
@@ -62,7 +68,7 @@ public class ConnectionHandler implements Runnable{
                         e.printStackTrace();
                     }
                 }
-            } else if (table.isBusy()) {
+            } else if (table.isBusy() || id == -1) {
                 connection.send(DataRecord.Record.newBuilder().setId(id).setTopic("busy").setMsg(ByteString.EMPTY).build().toByteArray());
             } else if (id != table.getLeader()) {
                 connection.send(DataRecord.Record.newBuilder().setId(table.getLeader()).setTopic("leader").setMsg(ByteString.EMPTY).build().toByteArray());

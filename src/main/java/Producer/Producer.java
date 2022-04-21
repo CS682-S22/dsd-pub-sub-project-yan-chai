@@ -99,6 +99,7 @@ public class Producer implements Runnable{
                             continue;
                         } else if (rec.getTopic().equals("busy")) {
                             Thread.sleep(5000);
+                            send = false;
                             continue;
                         }
                     } catch (IOException e) {

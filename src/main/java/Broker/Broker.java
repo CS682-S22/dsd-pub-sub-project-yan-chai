@@ -37,6 +37,11 @@ public class Broker implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        for (int i : table.getLive()) {
+            Thread t = new Thread(new ReceivingHandler(i, config, table, table.getMembers().get(i), storage));
+            t.start();
+        }
+
         logger.info("Broker Server Start at port: " + config.getPort());
     }
 
@@ -50,7 +55,7 @@ public class Broker implements Runnable{
                     break;
                 }
                 System.out.println("new Connection");
-                Thread handler = new Thread(new ConnectionHandler(config.getId(), c, table, storage));
+                Thread handler = new Thread(new ConnectionHandler(config.getId(), c, config, table, storage));
                 handler.start();
             } catch (IOException e) {
                 e.printStackTrace();

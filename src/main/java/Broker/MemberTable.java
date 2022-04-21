@@ -10,13 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MemberTable {
 
     private ConcurrentHashMap<Integer, FaultConnection> members;
+    private Set<Integer> live;
     private Config config;
     private volatile int leader;
     private volatile boolean isBusy;
@@ -25,6 +25,7 @@ public class MemberTable {
     public MemberTable(Config config) {
         isBusy = false;
         leader = -1;
+        live = Collections.synchronizedSet(new HashSet<>());
         this.config = config;
         numberTableInit(config.getBrokers(), config.getPorts());
     }
@@ -51,6 +52,7 @@ public class MemberTable {
                 e.printStackTrace();
             }
             members.put(i, c);
+            live.add(i);
         }
         if (members.size() == 0) {
             leader = config.getId();
@@ -76,4 +78,17 @@ public class MemberTable {
     public void setBusy(boolean busy) {
         isBusy = busy;
     }
+
+    public Set<Integer> getLive() {
+        return live;
+    }
+
+    public void addNew(int i) {
+        live.add(i);
+    }
+
+    public void down(int i) {
+        live.remove(i);
+    }
+
 }
