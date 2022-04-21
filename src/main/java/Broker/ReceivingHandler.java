@@ -91,6 +91,9 @@ public class ReceivingHandler implements Runnable{
                 } else if (rec.getMsg() != ByteString.EMPTY && !table.isBusy()) {
                     System.out.println(rec);
                     storage.put(rec.getTopic(), rec.getMsg());
+                    connection.send(DataRecord.Record.newBuilder().setId(config.getId()).setTopic("ack").setMsg(ByteString.EMPTY).build().toByteArray());
+                } else if (rec.getTopic().equals("ack")) {
+                    table.addAck(rec.getId());
                 }
             }
         }

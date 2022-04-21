@@ -17,6 +17,7 @@ public class MemberTable {
 
     private ConcurrentHashMap<Integer, FaultConnection> members;
     private Set<Integer> live;
+    private Set<Integer> ackTable;
     private Config config;
     private volatile int leader;
     private volatile boolean isBusy;
@@ -26,6 +27,7 @@ public class MemberTable {
         isBusy = false;
         leader = -1;
         live = Collections.synchronizedSet(new HashSet<>());
+        ackTable = Collections.synchronizedSet(new HashSet<>());
         this.config = config;
         numberTableInit(config.getBrokers(), config.getPorts());
     }
@@ -89,6 +91,14 @@ public class MemberTable {
 
     public void down(int i) {
         live.remove(i);
+    }
+
+    public void addAck(int i) {
+        ackTable.add(i);
+    }
+
+    public void clearAck() {
+        ackTable.clear();
     }
 
 }

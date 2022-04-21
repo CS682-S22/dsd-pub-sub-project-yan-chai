@@ -49,4 +49,8 @@ public class Storage {
         int index = map.get(topic).size() - 1;
         map.get(topic).remove(index);
     }
+
+    public boolean isEmpty() {
+        return map.size() == 0;
+    }
 }

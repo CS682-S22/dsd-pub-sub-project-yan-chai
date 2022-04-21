@@ -43,29 +43,53 @@ public class ConnectionHandler implements Runnable{
             e.printStackTrace();
         }
         if (record.getTopic().equals("broker")) {
+            connection.send(DataRecord.Record.newBuilder().setId(table.getLeader()).setTopic("leader").setMsg(ByteString.EMPTY).build().toByteArray());
+            if (!storage.isEmpty() && id == table.getLeader()) {
+                table.setBusy(true);
+                String[] info = storage.getInfo().split(",");
+                for (int i = 0; i < info.length; i += 2) {
+                    int j = 0;
+                    while (j < Integer.parseInt(info[i+1])) {
+                        connection.send(DataRecord.Record.newBuilder().setId(j).setTopic(info[i]).setMsg(storage.getMsg(info[i], j)).build().toByteArray());
+                        try {
+                            DataRecord.Record rec = DataRecord.Record.parseFrom(connection.receive());
+                            if (rec.getTopic().equals("ack")) {
+                                j ++;
+                            }
+                        } catch (InvalidProtocolBufferException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                table.setBusy(false);
+            }
             members.put(record.getId(), connection);
             table.addNew(record.getId());
             Thread t = new Thread(new ReceivingHandler(record.getId(), config, table, connection, storage));
             t.start();
-            connection.send(DataRecord.Record.newBuilder().setId(table.getLeader()).setTopic("leader").setMsg(ByteString.EMPTY).build().toByteArray());
         } else if (record.getTopic().equals("producer")) {
             if (id == table.getLeader()) {
                 connection.send(DataRecord.Record.newBuilder().setId(id).setTopic("success").setMsg(ByteString.EMPTY).build().toByteArray());
                 while (true) {
-                    try {
-                        DataRecord.Record data = DataRecord.Record.parseFrom(connection.receive());
-                        storage.put(data.getTopic(), data.getMsg());
-                        System.out.println(data);
-                        for (int i = 0; i < table.getLeader(); i ++) {
-                            FaultConnection c = table.getMembers().get(i);
-                            if (c != null) {
-                                c.send(data.toByteArray());
+                    if (table.isBusy()) {
+                        connection.receive();
+                        connection.send(DataRecord.Record.newBuilder().setId(id).setTopic("busy").setMsg(ByteString.EMPTY).build().toByteArray());
+                    } else {
+                        try {
+                            DataRecord.Record data = DataRecord.Record.parseFrom(connection.receive());
+                            storage.put(data.getTopic(), data.getMsg());
+                            System.out.println(data);
+                            for (int i = 0; i < table.getLeader(); i ++) {
+                                FaultConnection c = table.getMembers().get(i);
+                                if (c != null) {
+                                    c.send(data.toByteArray());
 
+                                }
                             }
+                            connection.send(DataRecord.Record.newBuilder().setId(id).setTopic("ack").setMsg(ByteString.EMPTY).build().toByteArray());
+                        } catch (InvalidProtocolBufferException e) {
+                            e.printStackTrace();
                         }
-                        connection.send(DataRecord.Record.newBuilder().setId(id).setTopic("ack").setMsg(ByteString.EMPTY).build().toByteArray());
-                    } catch (InvalidProtocolBufferException e) {
-                        e.printStackTrace();
                     }
                 }
             } else if (table.isBusy() || id == -1) {
