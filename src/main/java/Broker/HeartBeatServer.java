@@ -22,7 +22,6 @@ public class HeartBeatServer implements Runnable{
 
     private void sendHb(FaultConnection c) {
         c.sendHeartBeat(config.getId());
-        System.out.println("broker " + config.getId() + " send heart beat.");
     }
 
     @Override

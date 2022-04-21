@@ -49,10 +49,12 @@ public class ConnectionHandler implements Runnable{
                     try {
                         DataRecord.Record data = DataRecord.Record.parseFrom(connection.receive());
                         storage.put(data.getTopic(), data.getMsg());
+                        System.out.println(data);
                         for (int i = 0; i < table.getLeader(); i ++) {
                             FaultConnection c = table.getMembers().get(i);
                             if (c != null) {
                                 c.send(data.toByteArray());
+
                             }
                         }
                         connection.send(DataRecord.Record.newBuilder().setId(id).setTopic("ack").setMsg(ByteString.EMPTY).build().toByteArray());
@@ -62,6 +64,8 @@ public class ConnectionHandler implements Runnable{
                 }
             } else if (table.isBusy()) {
                 connection.send(DataRecord.Record.newBuilder().setId(id).setTopic("busy").setMsg(ByteString.EMPTY).build().toByteArray());
+            } else if (id != table.getLeader()) {
+                connection.send(DataRecord.Record.newBuilder().setId(table.getLeader()).setTopic("leader").setMsg(ByteString.EMPTY).build().toByteArray());
             }
         } else if (record.getTopic().equals("consumer")) {
             try {

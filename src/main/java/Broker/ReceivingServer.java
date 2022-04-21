@@ -57,7 +57,6 @@ public class ReceivingServer implements Runnable{
                                 future.cancel(true);
                             }
                             if (rec == null) {
-                                System.out.println("Broker " + finalI + " lose heart beat");
                                 if (new Date().getTime() - timeTable.get(finalI).getTime() > 5000) {
                                     table.getMembers().remove(finalI);
                                     System.out.println("remove " + finalI);
@@ -69,7 +68,6 @@ public class ReceivingServer implements Runnable{
                                 }
                             } else {
                                 timeTable.put(rec.getId(), new Date());
-                                System.out.println("rec: "+ rec.getId());
                                 if (rec.getTopic().equals("election")) {
                                     table.setLeader(-1);
                                     table.setBusy(true);
@@ -79,6 +77,9 @@ public class ReceivingServer implements Runnable{
                                     byte[] tmp = new byte[1];
                                     tmp[0] = (byte) storage.getVersion();
                                     table.getMembers().get(rec.getId()).send(DataRecord.Record.newBuilder().setId(config.getId()).setTopic("sync").setMsg(ByteString.copyFrom(tmp)).build().toByteArray());
+                                } else if (rec.getMsg() != ByteString.EMPTY) {
+                                    System.out.println(rec);
+                                    storage.put(rec.getTopic(), rec.getMsg());
                                 }
                             }
                         }

@@ -88,9 +88,12 @@ public class Producer implements Runnable{
                             break;
                         }
                         Thread.sleep(1000);
-                        connection.send(DataRecord.Record.newBuilder().setId(-1).setTopic(config.getTopic()).setMsg(ByteString.copyFrom(line.getBytes(StandardCharsets.UTF_8))).build().toByteArray());
+                        connection.send(DataRecord.Record.newBuilder().setId(index++).setTopic(config.getTopic()).setMsg(ByteString.copyFrom(line.getBytes(StandardCharsets.UTF_8))).build().toByteArray());
                         future = executor.submit(new MessageReceiver(connection));
                         rec = future.get(5000, TimeUnit.MILLISECONDS);
+                        if (rec == null) {
+                            break;
+                        }
                         if (rec.getTopic().equals("ack")) {
                             send = true;
                             continue;

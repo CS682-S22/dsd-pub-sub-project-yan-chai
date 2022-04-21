@@ -30,9 +30,10 @@ public class BrokerDriver {
         System.out.println(broker.getLeader());*/
         Scanner sc =  new Scanner(System.in);
         String input;
-        while (!(input = sc.next()).equals("exit")) {
-            if (input.equals("fail")) {
-                broker.fail();
+        while (!(input = sc.next()).equals("q")) {
+            if (input.equals("p")) {
+                System.out.println(storage.getVersion());
+                System.out.println(table.getLeader());
             }
         }
         System.out.println(table.getLeader());
