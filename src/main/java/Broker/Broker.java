@@ -17,6 +17,10 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Author: Haoyu Yan
+ * Broker class of project, store and receive message
+ */
 public class Broker implements Runnable{
 
 

@@ -9,6 +9,10 @@ import com.google.protobuf.ByteString;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ * Author: Haoyu Yan
+ * send heart Beat to every broker in numbership table
+ */
 public class HeartBeatServer implements Runnable{
 
     private MemberTable table;

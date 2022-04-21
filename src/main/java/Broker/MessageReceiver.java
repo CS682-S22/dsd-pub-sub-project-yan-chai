@@ -6,6 +6,10 @@ import Model.FaultConnection;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
+/**
+ * Author: Haoyu Yan
+ * Reciver message in certain time slot, if not receive, it will time out
+ */
 public class MessageReceiver implements Callable<DataRecord.Record> {
 
     private FaultConnection connection;

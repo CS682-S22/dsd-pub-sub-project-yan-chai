@@ -14,6 +14,10 @@ import java.time.Duration;
 import java.util.Random;
 import java.util.concurrent.*;
 
+/**
+ * Author: Haoyu Yan
+ * Conduer class
+ */
 public class Consumer {
 
     private Config config;

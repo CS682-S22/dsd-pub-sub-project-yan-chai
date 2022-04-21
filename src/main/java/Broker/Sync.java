@@ -3,6 +3,10 @@ package Broker;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Author: Haoyu Yan
+ * synchronized every broker's storage using roll back method
+ */
 public class Sync {
 
     private ConcurrentHashMap<String, Integer> sync;

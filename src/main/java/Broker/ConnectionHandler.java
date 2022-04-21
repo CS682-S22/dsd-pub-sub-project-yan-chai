@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Author: Haoyu Yan
+ * Handle each connection
+ */
 public class ConnectionHandler implements Runnable{
 
     private int id;

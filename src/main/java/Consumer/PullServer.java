@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.*;
 
+/**
+ * Author: Haoyu Yan
+ * pull server class
+ */
 public class PullServer implements Runnable{
 
     private int index;
@@ -29,12 +33,8 @@ public class PullServer implements Runnable{
         Random r = new Random();
         int i = r.nextInt(config.getNumber());
         while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             FaultConnection c = null;
+            System.out.println("connect to " + i);
             try {
                 c = new FaultConnection(config.getBrokers()[i], config.getPorts()[i]);
             } catch (IOException e) {
@@ -45,11 +45,10 @@ public class PullServer implements Runnable{
             while (true) {
                 c.send(DataRecord.Record.newBuilder().setId(index).setTopic(config.getTopic()).setMsg(ByteString.EMPTY).build().toByteArray());
                 try {
-                    Thread.sleep(1000);
                     Future<DataRecord.Record> future = executor.submit(new MessageReceiver(c));
-                    DataRecord.Record rec = future.get(5000, TimeUnit.MILLISECONDS);
+                    DataRecord.Record rec = future.get(1000, TimeUnit.MILLISECONDS);
                     if (rec.getTopic().equals("empty")) {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                         continue;
                     }
                     bQueue.add(rec.getMsg());

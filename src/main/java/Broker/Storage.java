@@ -23,7 +23,7 @@ public class Storage {
 
     public ByteString getMsg(String topic, int id) {
         List<ByteString> tmp = map.get(topic);
-        if (tmp.size() <= id) {
+        if (tmp == null || tmp.size() <= id) {
             return null;
         }
         return tmp.get(id);

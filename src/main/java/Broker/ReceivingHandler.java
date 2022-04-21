@@ -9,6 +9,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.*;
 
+/**
+ * Author: Haoyu Yan
+ * Handle received messages
+ */
 public class ReceivingHandler implements Runnable{
 
     private int id;

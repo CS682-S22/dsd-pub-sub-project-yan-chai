@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Author: Haoyu Yan
+ * record the state of each connect and the broker information
+ */
 public class MemberTable {
 
     private ConcurrentHashMap<Integer, FaultConnection> members;
