@@ -19,9 +19,11 @@ public class MemberTable {
     private ConcurrentHashMap<Integer, FaultConnection> members;
     private Config config;
     private volatile int leader;
+    private volatile boolean isBusy;
     private static final Logger logger = LogManager.getLogger(MemberTable.class);
 
     public MemberTable(Config config) {
+        isBusy = false;
         leader = -1;
         this.config = config;
         numberTableInit(config.getBrokers(), config.getPorts());
@@ -67,4 +69,11 @@ public class MemberTable {
         this.leader = leader;
     }
 
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public void setBusy(boolean busy) {
+        isBusy = busy;
+    }
 }

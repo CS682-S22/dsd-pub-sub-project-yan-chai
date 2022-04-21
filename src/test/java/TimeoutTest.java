@@ -1,4 +1,4 @@
-import Broker.HeartReceiver;
+import Broker.MessageReceiver;
 import Model.Connection;
 import Model.DataRecord;
 import Model.FaultConnection;
@@ -31,7 +31,7 @@ public class TimeoutTest {
         try {
             FaultConnection c = new FaultConnection(new Socket("127.0.0.1", 30000));
             c.send(DataRecord.Record.newBuilder().setId(0).setTopic("topic").setMsg(ByteString.EMPTY).build().toByteArray());
-            Future future = executor.submit(new HeartReceiver(c));
+            Future future = executor.submit(new MessageReceiver(c));
             DataRecord.Record dr = (DataRecord.Record) future.get(100, TimeUnit.MILLISECONDS);
             Assert.fail();
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class TimeoutTest {
         try {
             FaultConnection c = new FaultConnection(new Socket("127.0.0.1", 30000));
             c.send(DataRecord.Record.newBuilder().setId(0).setTopic("topic").setMsg(ByteString.EMPTY).build().toByteArray());
-            Future future = executor.submit(new HeartReceiver(c));
+            Future future = executor.submit(new MessageReceiver(c));
             DataRecord.Record dr = (DataRecord.Record) future.get(100, TimeUnit.MILLISECONDS);
             System.out.println("Send back Message!");
         } catch (IOException e) {

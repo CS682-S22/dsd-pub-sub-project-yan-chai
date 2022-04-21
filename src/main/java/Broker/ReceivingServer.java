@@ -7,7 +7,6 @@ import com.google.protobuf.ByteString;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Timer;
 import java.util.concurrent.*;
 
 public class ReceivingServer implements Runnable{
@@ -46,8 +45,7 @@ public class ReceivingServer implements Runnable{
                     Thread t = new Thread(() -> {
                         Future future = null;
                         while (true) {
-                            future = executor.submit(new HeartReceiver(c));
-                            System.out.println(c.isRunning());
+                            future = executor.submit(new MessageReceiver(c));
                             DataRecord.Record rec = null;
                             try {
                                 rec = (DataRecord.Record) future.get(2000, TimeUnit.MILLISECONDS);
@@ -65,6 +63,7 @@ public class ReceivingServer implements Runnable{
                                     System.out.println("remove " + finalI);
                                     if (finalI == table.getLeader()) {
                                         table.setLeader(-1);
+                                        table.setBusy(true);
                                     }
                                     return;
                                 }
@@ -73,6 +72,7 @@ public class ReceivingServer implements Runnable{
                                 System.out.println("rec: "+ rec.getId());
                                 if (rec.getTopic().equals("election")) {
                                     table.setLeader(-1);
+                                    table.setBusy(true);
                                 } else if (rec.getTopic().equals("newLeader")) {
                                     table.setLeader(rec.getId());
                                     System.out.println("Set leader " + rec.getId());

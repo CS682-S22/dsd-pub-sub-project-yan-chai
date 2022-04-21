@@ -6,11 +6,11 @@ import Model.FaultConnection;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
-public class HeartReceiver implements Callable<DataRecord.Record> {
+public class MessageReceiver implements Callable<DataRecord.Record> {
 
     private FaultConnection connection;
 
-    public HeartReceiver(FaultConnection connection) {
+    public MessageReceiver(FaultConnection connection) {
         this.connection = connection;
     }
     @Override

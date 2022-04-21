@@ -1,5 +1,4 @@
-import Broker.HeartReceiver;
-import Model.Connection;
+import Broker.MessageReceiver;
 import Model.DataRecord;
 import Model.FaultConnection;
 import com.google.protobuf.ByteString;
@@ -33,7 +32,7 @@ public class ConnectionTest {
         try {
             FaultConnection c = new FaultConnection(new Socket("127.0.0.1", 30000));
             c.send(DataRecord.Record.newBuilder().setId(0).setTopic("topic").setMsg(ByteString.EMPTY).build().toByteArray());
-            Future future = executor.submit(new HeartReceiver(c));
+            Future future = executor.submit(new MessageReceiver(c));
             DataRecord.Record dr = (DataRecord.Record) future.get(100, TimeUnit.MILLISECONDS);
             Assert.fail();
         } catch (IOException e) {

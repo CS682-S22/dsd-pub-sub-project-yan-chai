@@ -11,6 +11,8 @@ public class Config {
     private String[] brokers;
     private int[] ports;
     private int number;
+    private String input;
+    private String topic;
 
     public Config(String prop) {
         Properties properties = new Properties();
@@ -22,6 +24,8 @@ public class Config {
         id = Integer.parseInt(properties.getProperty("id"));
         loc = properties.getProperty("broker");
         port = Integer.parseInt(properties.getProperty("port"));
+        input = properties.getProperty("input");
+        topic = properties.getProperty("topic");
         brokers = properties.getProperty("brokers").split(",");
         String[] tmp = properties.getProperty("ports").split(",");
         number = tmp.length;
@@ -53,5 +57,13 @@ public class Config {
 
     public int getNumber() {
         return number;
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public String getTopic() {
+        return topic;
     }
 }
