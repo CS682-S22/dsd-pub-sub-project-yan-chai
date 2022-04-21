@@ -10,21 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9f358d8-1435-46fe-ae14-ae7eef459a15" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Broker/ReceivingHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Broker/Sync.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Broker/Broker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Broker/Broker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Broker/ConnectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Broker/ConnectionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Broker/MemberTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Broker/MemberTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Broker/ReceivingServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Broker/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Broker/Storage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Driver/BrokerDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Driver/BrokerDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Broker/ReceivingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Broker/ReceivingHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Producer/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Producer/Producer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Broker/Broker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Broker/Broker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Broker/ConnectionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Broker/ConnectionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Broker/MemberTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Broker/MemberTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Broker/ReceivingServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Driver/BrokerDriver.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Driver/BrokerDriver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Broker/ReceivingHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Broker/ReceivingHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Producer/Producer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Producer/Producer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -180,7 +169,7 @@
       <workItem from="1650314647351" duration="48131000" />
       <workItem from="1650471950025" duration="2678000" />
       <workItem from="1650477548552" duration="29736000" />
-      <workItem from="1650520035733" duration="27479000" />
+      <workItem from="1650520035733" duration="31710000" />
     </task>
     <servers />
   </component>

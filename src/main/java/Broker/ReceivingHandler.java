@@ -69,9 +69,10 @@ public class ReceivingHandler implements Runnable{
                     sync.sync(storage.getInfo());
                     sync.newSync();
                     sync.sync(rec.getMsg().toString(StandardCharsets.UTF_8));
-                    if (sync.getSyncCount() == table.getLive().size() - 1) {
+                    if (sync.getSyncCount() == table.getLive().size()) {
                         for (int i : table.getLive()) {
                             FaultConnection c = table.getMembers().get(i);
+                            System.out.println("Send info");
                             connection.send(DataRecord.Record.newBuilder().setId(config.getId()).setTopic("info").setMsg(ByteString.copyFrom(sync.toString().getBytes(StandardCharsets.UTF_8))).build().toByteArray());
                         }
                         sync = new Sync();
@@ -82,7 +83,7 @@ public class ReceivingHandler implements Runnable{
                     String[] tmp = rec.getMsg().toString(StandardCharsets.UTF_8).split(",");
                     for (int i = 0; i < tmp.length; i += 2) {
                         int compare = storage.getVersion(tmp[i]) - Integer.parseInt(tmp[i+1]);
-                        for (int j = storage.getVersion(tmp[i])-1; j > compare; j++) {
+                        for (int j = 0; j < compare; j++) {
                             storage.rollback(tmp[i]);
                         }
                     }

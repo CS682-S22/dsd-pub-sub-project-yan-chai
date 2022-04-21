@@ -1,8 +1,7 @@
 package Producer;
 
-import Broker.Broker;
 import Model.Config;
-import Model.Connection;
+
 import Model.DataRecord;
 import Model.FaultConnection;
 import com.google.protobuf.ByteString;
@@ -30,6 +29,7 @@ public class Producer implements Runnable{
     private String line;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private static final Logger logger = LogManager.getLogger(Producer.class);
+    private boolean send;
 
 
     public Producer(Config config) {
@@ -41,6 +41,7 @@ public class Producer implements Runnable{
             e.printStackTrace();
         }
         index = 0;
+        send = true;
     }
 
 
@@ -77,7 +78,6 @@ public class Producer implements Runnable{
             if (rec.getTopic().equals("leader")) {
                 i = rec.getId();
             } else if (rec.getTopic().equals("success")) {
-                boolean send = true;
                 while (true) {
                     try {
                         if (send) {
@@ -85,13 +85,18 @@ public class Producer implements Runnable{
                             send = false;
                         }
                         if (line == null) {
+                            send = false;
                             break;
                         }
                         Thread.sleep(1000);
-                        connection.send(DataRecord.Record.newBuilder().setId(index++).setTopic(config.getTopic()).setMsg(ByteString.copyFrom(line.getBytes(StandardCharsets.UTF_8))).build().toByteArray());
+                        send = connection.send(DataRecord.Record.newBuilder().setId(index).setTopic(config.getTopic()).setMsg(ByteString.copyFrom(line.getBytes(StandardCharsets.UTF_8))).build().toByteArray());
+                        if (send) {
+                            index ++;
+                        }
                         future = executor.submit(new MessageReceiver(connection));
                         rec = future.get(5000, TimeUnit.MILLISECONDS);
                         if (rec == null) {
+                            send = false;
                             break;
                         }
                         if (rec.getTopic().equals("ack")) {
@@ -109,6 +114,7 @@ public class Producer implements Runnable{
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (TimeoutException e) {
+                        send = false;
                         break;
                     }
                 }
