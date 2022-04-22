@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 
 /**
  * Author: Haoyu Yan
- * pull server class
+ * pull server class, pull data from server constantly
  */
 public class PullServer implements Runnable{
 
@@ -47,17 +47,16 @@ public class PullServer implements Runnable{
                 try {
                     Future<DataRecord.Record> future = executor.submit(new MessageReceiver(c));
                     DataRecord.Record rec = future.get(1000, TimeUnit.MILLISECONDS);
+                    if (rec == null) {
+                        break;
+                    }
                     if (rec.getTopic().equals("empty")) {
                         Thread.sleep(100);
                         continue;
                     }
                     bQueue.add(rec.getMsg());
                     index ++;
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (TimeoutException e) {
+                } catch (ExecutionException | InterruptedException | TimeoutException e) {
                     break;
                 }
             }

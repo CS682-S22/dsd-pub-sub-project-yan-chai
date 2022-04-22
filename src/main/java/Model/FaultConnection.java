@@ -5,6 +5,10 @@ import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Author: Haoyu Yan
+ * This Connection can simulate fail situation
+ */
 public class FaultConnection extends Connection {
 
     private boolean running;

@@ -5,6 +5,10 @@ import Model.Config;
 
 import java.time.Duration;
 
+/**
+ * Author: Haoyu Yan
+ * Consumer Driver Class, run Consumer
+ */
 public class ConsumerDriver {
 
     public static void main(String[] args) {

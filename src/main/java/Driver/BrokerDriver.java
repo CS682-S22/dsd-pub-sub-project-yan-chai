@@ -5,6 +5,10 @@ import Model.Config;
 
 import java.util.Scanner;
 
+/**
+ * Author: Haoyu Yan
+ * Broker Driver, run broker
+ */
 public class BrokerDriver {
 
     private Broker broker;

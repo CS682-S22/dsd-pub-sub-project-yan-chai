@@ -136,3 +136,34 @@
 2022-04-21 12:51:02,106 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
 2022-04-21 12:51:02,112 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
 2022-04-21 12:51:02,127 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:18:38,291 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:18:38,304 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:18:38,321 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:35:22,742 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:35:22,747 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:35:22,758 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:35:22,762 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:35:37,467 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:35:37,473 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:35:37,484 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:35:37,485 INFO B.Broker [main] Broker Server Start at port: 30001 
+2022-04-21 17:35:54,576 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:35:54,582 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:35:54,595 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:35:54,595 INFO B.Broker [main] Broker Server Start at port: 30001 
+2022-04-21 17:36:13,613 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:36:13,618 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:36:13,630 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:36:13,631 INFO B.Broker [main] Broker Server Start at port: 30001 
+2022-04-21 17:36:33,010 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:36:33,017 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:36:33,027 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:36:33,028 INFO B.Broker [main] Broker Server Start at port: 30001 
+2022-04-21 17:36:46,459 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:36:46,465 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:36:46,477 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:36:46,478 INFO B.Broker [main] Broker Server Start at port: 30001 
+2022-04-21 17:38:27,705 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:38:27,710 INFO B.MemberTable [main] Cannot connect to 127.0.0.1 
+2022-04-21 17:38:27,725 INFO B.Broker [main] Broker Server Start at port: 30000 
+2022-04-21 17:38:27,726 INFO B.Broker [main] Broker Server Start at port: 30001 

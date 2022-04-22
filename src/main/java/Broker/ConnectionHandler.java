@@ -103,12 +103,14 @@ public class ConnectionHandler implements Runnable{
             }
         } else if (record.getTopic().equals("consumer")) {
             try {
-                DataRecord.Record req = DataRecord.Record.parseFrom(connection.receive());
-                ByteString s = storage.getMsg(req.getTopic(), req.getId());
-                if (s != null) {
-                    connection.send(DataRecord.Record.newBuilder().setId(req.getId()).setTopic(record.getTopic()).setMsg(s).build().toByteArray());
-                } else {
-                    connection.send(DataRecord.Record.newBuilder().setId(req.getId()).setTopic("empty").setMsg(ByteString.EMPTY).build().toByteArray());
+                while (true) {
+                    DataRecord.Record req = DataRecord.Record.parseFrom(connection.receive());
+                    ByteString s = storage.getMsg(req.getTopic(), req.getId());
+                    if (s != null) {
+                        connection.send(DataRecord.Record.newBuilder().setId(req.getId()).setTopic(record.getTopic()).setMsg(s).build().toByteArray());
+                    } else {
+                        connection.send(DataRecord.Record.newBuilder().setId(req.getId()).setTopic("empty").setMsg(ByteString.EMPTY).build().toByteArray());
+                    }
                 }
             } catch (InvalidProtocolBufferException e) {
                 e.printStackTrace();

@@ -4,6 +4,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Author: Haoyu Yan
+ * load config file from system
+ */
 public class Config {
     private String loc;
     private int port;
